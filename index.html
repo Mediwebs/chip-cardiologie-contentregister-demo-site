@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Demo van een Inforium CHIP contentregister voor een afdeling cardiologie.">
+  <title>CHIP Cardiologie · Hartstad Ziekenhuis</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><img src="inforium-chip-logo.png" alt="Inforium CHIP"></div>
+      <div class="hospital">
+        <span class="hospital-icon">H</span>
+        <div><strong>Hartstad Ziekenhuis</strong><small>Afdeling Cardiologie · demo</small></div>
+      </div>
+      <nav aria-label="Hoofdnavigatie">
+        <button class="nav-item active" data-view="dashboard"><span>⌂</span>Dashboard</button>
+        <button class="nav-item" data-view="library"><span>▦</span>Bibliotheek</button>
+        <button class="nav-item" data-view="sources"><span>↙</span>Bronnen</button>
+        <button class="nav-item" data-view="channels"><span>↗</span>Toepassingen</button>
+      </nav>
+      <div class="demo-note"><b>Demoomgeving</b><p>Voorbeeldcontent zonder patiëntgegevens. Getoonde statussen zijn fictief.</p></div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div><p class="eyebrow">CHIP AFDELINGSREGISTER</p><h1 id="page-title">Grip op cardiologiecontent</h1></div>
+        <div class="top-actions"><span class="role-badge">Demorol: Validator</span><button class="primary" id="add-content">＋ Content toevoegen</button></div>
+      </header>
+
+      <section id="dashboard-view" class="view active">
+        <section class="hero">
+          <div><span class="hero-label">Cardiologie</span><h2>De juiste informatie, op ieder moment en in ieder kanaal</h2><p>Beheer patiëntinformatie, protocollen en digitale uitleg vanuit één betrouwbare basis.</p></div>
+          <div class="hero-flow" aria-label="Werkwijze"><span>Beheren</span><i>›</i><span>Beoordelen</span><i>›</i><span>Publiceren</span><i>›</i><span>Bewaken</span></div>
+        </section>
+        <section class="stats" id="stats"></section>
+        <div class="dashboard-grid">
+          <section class="panel">
+            <div class="panel-head"><div><p class="eyebrow">RECENT BEHEERD</p><h2>Content van de afdeling</h2></div><button class="text-button" data-go="library">Alles bekijken →</button></div>
+            <div class="content-grid compact" id="recent-content"></div>
+          </section>
+          <aside class="work-panel">
+            <div class="panel-head"><div><p class="eyebrow">WERKVOORRAAD</p><h2>Vraagt aandacht</h2></div><span class="count-badge" id="work-count"></span></div>
+            <div id="work-list"></div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="library-view" class="view">
+        <section class="section-intro"><div><p class="eyebrow">CENTRALE BIBLIOTHEEK</p><h2>Alle cardiologiecontent</h2><p>Vind, controleer en hergebruik informatie per zorgpad, type, provider en status.</p></div><div class="library-count" id="library-count"></div></section>
+        <div class="filters">
+          <label class="search"><span>⌕</span><input id="search" type="search" placeholder="Zoek op titel, onderwerp of eigenaar"></label>
+          <select id="type-filter" aria-label="Filter op contenttype"><option value="">Alle typen</option></select>
+          <select id="status-filter" aria-label="Filter op status"><option value="">Alle statussen</option></select>
+          <select id="route-filter" aria-label="Filter op zorgpad"><option value="">Alle zorgpaden</option></select>
+          <select id="provider-filter" aria-label="Filter op contentprovider"><option value="">Alle providers</option></select>
+        </div>
+        <div class="content-grid" id="library-grid"></div>
+      </section>
+
+      <section id="sources-view" class="view">
+        <section class="section-intro"><div><p class="eyebrow">HERKOMST</p><h2>Bronnen onder controle</h2><p>Zie waar informatie vandaan komt, wie eigenaar is en wanneer de bron voor het laatst is gecontroleerd.</p></div></section>
+        <div class="source-grid" id="source-grid"></div>
+      </section>
+
+      <section id="channels-view" class="view">
+        <section class="section-intro"><div><p class="eyebrow">HERGEBRUIK</p><h2>Eén basis, meerdere toepassingen</h2><p>Dezelfde gecontroleerde inhoud kan gericht worden klaargezet voor patiënt en professional.</p></div></section>
+        <div class="channel-grid" id="channel-grid"></div>
+        <section class="flow-panel"><div><b>Bronnen</b><small>Landelijk, ziekenhuis en afdeling</small></div><span>→</span><div class="core"><b>CHIP Contentregister</b><small>Ordenen · beoordelen · versiebeheer</small></div><span>→</span><div><b>Toepassingen</b><small>Website, portaal, app en chatbot</small></div></section>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="detail-dialog"><button class="close" type="button" aria-label="Sluiten">×</button><div id="detail-content"></div></dialog>
+  <dialog id="add-dialog">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <p class="eyebrow">NIEUWE REGISTRATIE</p><h2>Content toevoegen</h2>
+    <p class="dialog-lead">Sla nieuwe informatie veilig als concept op. Beoordeling en publicatie volgen daarna.</p>
+    <form id="content-form">
+      <label>Titel *<input name="title" maxlength="160" required></label>
+      <label>Contenttype *<select name="contentType" required></select></label>
+      <label>Inhoud of locatie *<input name="mediaUrl" type="url" placeholder="https://…" required></label>
+      <label>Taal *<input name="language" value="Nederlands" maxlength="40" required></label>
+      <label>Zorgpad / onderwerp *<input name="topic" maxlength="100" required></label>
+      <label>Korte omschrijving *<textarea name="description" rows="3" maxlength="600" required></textarea></label>
+      <label>Bron *<input name="sourceName" maxlength="160" required></label>
+      <label>Contentprovider / bronorganisatie *<input name="sourceOrganisation" list="provider-options" value="Hartstad Ziekenhuis" maxlength="160" required></label>
+      <datalist id="provider-options">
+        <option value="Hartstad Ziekenhuis">
+        <option value="Gekoppelde videoprovider">
+        <option value="Inforium Studio">
+        <option value="Pharos">
+        <option value="BetrouwbareBron">
+        <option value="BehandelingBegrepen">
+        <option value="Steffie">
+        <option value="Informed">
+        <option value="Inforium CHIP">
+      </datalist>
+      <label>Licentie / rechtenstatus *<select name="rightsStatus" required><option>Onbekend</option><option>Alleen verwijzen/embedden toegestaan</option><option>Expliciete toestemming</option><option>Concrete licentie</option><option>Aangeschafte licentie</option><option>Creative Commons BY 4.0</option><option>CC0</option></select></label>
+      <label>Voorgestelde beoordeling *<select name="validationProfile" required><option>Bronvaliditeit</option><option>Inhoudsvaliditeit</option><option>Inhouds- en transformatievaliditeit</option><option>Contextvaliditeit</option></select></label>
+      <label>Naam beoordelaar<input name="validatorName" maxlength="160" placeholder="Naam of functie"></label>
+      <label>Organisatie beoordelaar<input name="validatorOrganisation" value="Hartstad Ziekenhuis" maxlength="160"></label>
+      <label class="approval-box"><input type="checkbox" name="approvalConfirmed" value="true"> Deze exacte versie inhoudelijk goedkeuren</label>
+      <p class="role-note"><strong>Demorol: Validator.</strong> In de definitieve aansluiting bepaalt de serverrol of dit vinkje beschikbaar is.</p>
+      <p id="form-message" role="status"></p>
+      <button class="primary submit" type="submit">Als concept opslaan</button>
+    </form>
+  </dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
